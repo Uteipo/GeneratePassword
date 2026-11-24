@@ -13,13 +13,19 @@ use_symbols= tk.BooleanVar()
 check_symbols= tk.Checkbutton(window, text= 'СпецСимволы', variable=use_symbols, bg='#2b2b2b', selectcolor='#4CAF50',  fg='white')
 check_symbols.pack(pady=5)
 length_menu.pack(pady=5)
+history_List= tk.Listbox(window, height=5, bg='white')
+history_List.pack(pady=10)
 def generate_password():
+    global history_List
     chars = string.ascii_letters + string.digits
     if use_symbols.get():
         chars = chars + string.punctuation
     password = "".join(random.choices(chars, k=int(length_var.get())))
     password_entry.delete(0, tk.END)
     password_entry.insert(0, password)
+    if history_List.size() >5:
+        history_List.delete(0)
+    history_List.insert(tk.END, password)
 def clear_password():
     password_entry.delete(0, tk.END)    
 btn_clear = tk.Button(window, text='Стереть', command= clear_password)
@@ -34,5 +40,8 @@ btn_copy = tk.Button(window, text='Скопировать', command=copy_passwor
 btn_copy.pack(pady=5)
 
 window.mainloop()
+
+
+
 
 
